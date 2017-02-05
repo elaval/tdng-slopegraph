@@ -1,0 +1,19 @@
+{
+  "name": "tdng-slopegraph",
+  "version": "0.0.1",
+  "description": "Slopegraph Angular 2 component",
+  "main": "slopegraph.component.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elaval/tdng-slopegraph.git"
+  },
+  "author": "Ernesto Laval",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/elaval/tdng-slopegraph/issues"
+  },
+  "homepage": "https://github.com/elaval/tdng-slopegraph#readme"
+}

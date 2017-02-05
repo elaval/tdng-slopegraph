@@ -1,0 +1,58 @@
+/* 
+// g.items
+//   g.item
+//     text.label
+//     g.slope
+//       text.metric.left
+//       circle.left 
+//       line
+//       circle.right 
+//       text.metric.right 
+*/
+
+:host /deep/ :host /deep/ .slopegraph .item {
+  opacity: 0.9;
+}
+
+:host /deep/ .slopegraph .item.selected, 
+:host /deep/ .slopegraph .item.increaseAboveAverage, 
+:host /deep/ .slopegraph .item.item.decrease
+{
+  opacity: 1;
+}
+
+
+:host /deep/ .slopegraph .item  {
+  fill : grey;
+  stroke: grey;
+}
+
+
+:host /deep/ .slopegraph .item.positive  {
+  fill : dodgerblue;
+  stroke: dodgerblue;
+}
+
+
+:host /deep/ .slopegraph .item.negative  {
+  fill : darkred;
+  stroke: darkred;
+}
+
+:host /deep/ .slopegraph .item text {
+  stroke-width: 0.3;
+}
+
+:host /deep/ .slopegraph .item line, 
+:host /deep/ .slopegraph .legend line {
+  stroke-width: 4px;
+}
+
+:host /deep/  .item.selected  {
+  fill : blue;
+  stroke : blue;
+}
+
+:host /deep/  text.label.period  {
+  font-size:  10pt;
+}
