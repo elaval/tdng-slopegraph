@@ -37,6 +37,8 @@ export class SlopegraphLayoutService {
     this._height = 500;
 
     this.series = series;
+
+    return this;
   }
 
   nodes() {
@@ -98,8 +100,10 @@ export class SlopegraphLayoutService {
   }
 
 
-  set height(_) {
+  height(_) {
     this._height = _;
+
+    return this;
   }
 
 

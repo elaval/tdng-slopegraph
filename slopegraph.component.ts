@@ -93,6 +93,7 @@ export class SlopegraphComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (this.svgContainer) this.updateContainerSize();
     this.render(this.series);
   }
 
@@ -110,7 +111,7 @@ export class SlopegraphComponent implements OnInit {
 
     if (series && series.length && this.mainContainer) {
 
-      this.slopegraphLayoutService.setData(series);
+      this.slopegraphLayoutService.setData(series).height(this.height);
       let nodes:nodeItem[] = this.slopegraphLayoutService.nodes();
 
       let firstPeriodLable = this.categories && this.categories[0] ? this.categories[0] : "Period 1"
