@@ -35,6 +35,11 @@ export class SlopegraphComponent implements OnInit {
   delayTime = 500;
   transitionTime = 1000;
 
+  @Input()
+  formatValues = d3.format("0.3s");
+
+  formatVariation = d3.format("+0.1%");
+
   constructor(
     private elementRef:ElementRef,
     private slopegraphLayoutService: SlopegraphLayoutService
@@ -106,6 +111,8 @@ export class SlopegraphComponent implements OnInit {
     this.updateContainerSize();
     this.render(this.series);
   }
+
+
   
   render(series) {
 
@@ -116,10 +123,6 @@ export class SlopegraphComponent implements OnInit {
 
       let firstPeriodLable = this.categories && this.categories[0] ? this.categories[0] : "Period 1"
       let secondPeriodLable = this.categories && this.categories[1] ? this.categories[1] : "Period 2"
-
-      // TODO ... make formats configurable
-      var formatSales = d3.format("0.3s");
-      var formatVariation = d3.format("+0.1%");
 
       // Create / update g elements for each item
       // g.items
@@ -175,7 +178,7 @@ export class SlopegraphComponent implements OnInit {
         .attr("y", d => d.rPos)
         .attr("text-anchor","end")
         .attr("dy",4)
-        .attr("dx",-50)
+        .attr("dx",-60)
         .transition()
         .delay(this.delayTime)
         .duration(this.transitionTime)
@@ -184,7 +187,7 @@ export class SlopegraphComponent implements OnInit {
 
       // Update slope elements
       items.select("g.slope").select("text.metric.left")
-        .text(d => formatSales(d.data[0]))
+        .text(d => this.formatValues(d.data[0]))
         .attr("y", d => d.rPos)
         .attr("text-anchor","end")
         .attr("dy",4)
@@ -226,8 +229,8 @@ export class SlopegraphComponent implements OnInit {
 
       items.select("g.slope").select("text.metric.right")
         .text(d => {
-          var sales = formatSales(d.data[1]);
-          var variation = formatVariation(d.percentualVariation);
+          var sales = this.formatValues(d.data[1]);
+          var variation = this.formatVariation(d.percentualVariation);
           return sales + " ("+variation+")";
         })
         .attr("x", this.width)
