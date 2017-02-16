@@ -40,6 +40,8 @@ export class SlopegraphComponent implements OnInit {
 
   formatVariation = d3.format("+0.1%");
 
+  myId;
+
   constructor(
     private elementRef:ElementRef,
     private slopegraphLayoutService: SlopegraphLayoutService
@@ -47,6 +49,7 @@ export class SlopegraphComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.myId = this.guidGenerator();
     this.svgContainer = d3.select(this.elementRef.nativeElement).append("svg")
     .attr("class", "slopegraph");
 
@@ -70,8 +73,20 @@ export class SlopegraphComponent implements OnInit {
 
     // Adjust element size on window resize
     d3.select(window)
-    .on("resize", () => {
-      console.debug("RESIZE");
+    .on("resize.slopegraph"+this.myId, () => {
+      console.debug("Window resize event slopegraph "+this.myId);
+      this.updateContainerSize();
+      this.render(this.series);
+    })
+
+    let myNode:HTMLElement = <HTMLElement>this.svgContainer.node();
+    let parentNode:HTMLElement = <HTMLElement>myNode.parentNode.parentNode;
+
+    let parentSelect = d3.select(parentNode);
+    parentSelect
+    .on("resize.slopegraph"+this.myId, () => {
+      console.debug("Parent resize event slopegraph "+this.myId);
+
       this.updateContainerSize();
       this.render(this.series);
     })
@@ -79,6 +94,13 @@ export class SlopegraphComponent implements OnInit {
     this.render(this.series) 
 
       
+  }
+
+  guidGenerator() {
+      var S4 = function() {
+        return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+      };
+      return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
   }
 
   updateContainerSize() {
@@ -89,7 +111,10 @@ export class SlopegraphComponent implements OnInit {
     let paddingRight = parseFloat(parentStyle.paddingRight);
     
 
-    let width = parentNode.getBoundingClientRect().width-paddingLeft-paddingLeft;
+    let width = parentNode.getBoundingClientRect().width-paddingLeft-paddingRight;
+
+    //console.debug("Resize "+this.myId + " " + width + " " + paddingLeft + " " + paddingRight);
+
 
     this.width =  width - this.margin.left - this.margin.right;
     this.svgContainer
@@ -98,6 +123,7 @@ export class SlopegraphComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    //console.debug("ngOnChanges " + this.myId, changes)
     if (this.svgContainer) this.updateContainerSize();
     this.render(this.series);
   }
