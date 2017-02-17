@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input, SimpleChanges} from '@angular/core'; 
+import { Component, OnInit, ElementRef, Input, SimpleChanges, Output, EventEmitter } from '@angular/core'; 
 import * as d3 from 'd3';
 
 import { SlopegraphLayoutService, seriesItem, nodeItem } from "./slopegraph-layout.service"
@@ -10,6 +10,8 @@ import { SlopegraphLayoutService, seriesItem, nodeItem } from "./slopegraph-layo
   providers: [SlopegraphLayoutService]
 })
 export class SlopegraphComponent implements OnInit {
+  @Output() selectItem = new EventEmitter();
+
   @Input()
   series:seriesItem[];  
   
@@ -189,6 +191,10 @@ export class SlopegraphComponent implements OnInit {
 
       newItems.select("g.slope").append("text")
         .attr("class", "metric right");
+
+      newItems.on("click", (d) => {
+        this.selectItem.emit(d)
+      });
 
       items = newItems    
         .merge(items);

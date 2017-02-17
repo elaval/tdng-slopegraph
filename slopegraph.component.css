@@ -10,8 +10,9 @@
 //       text.metric.right 
 */
 
-:host /deep/ :host /deep/ .slopegraph .item {
+:host /deep/ .slopegraph .item {
   opacity: 0.9;
+
 }
 
 :host /deep/ .slopegraph .item.selected, 
@@ -25,6 +26,7 @@
 :host /deep/ .slopegraph .item  {
   fill : grey;
   stroke: grey;
+  cursor: pointer;
 }
 
 

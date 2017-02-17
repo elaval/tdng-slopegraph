@@ -1,6 +1,6 @@
 {
   "name": "tdng-slopegraph",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Slopegraph Angular 2 component",
   "main": "slopegraph.component.ts",
   "scripts": {
