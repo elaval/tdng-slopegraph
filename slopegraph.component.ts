@@ -51,6 +51,11 @@ export class SlopegraphComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.margin.right = this.margin.right || 100;
+    this.margin.left = this.margin.left || 200;
+    this.margin.top = this.margin.top || 20;
+    this.margin.bottom = this.margin.bottom || 20;
+
     this.myId = this.guidGenerator();
     this.svgContainer = d3.select(this.elementRef.nativeElement).append("svg")
     .attr("class", "slopegraph");
