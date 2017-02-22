@@ -30,6 +30,7 @@ export class SlopegraphComponent implements OnInit {
   height = 500;
 
   width=500;
+  leftLabelPadding = 60;
 
   svgContainer:d3.Selection<d3.BaseType, {}, null, undefined>;;  // <svg>
   mainContainer:d3.Selection<d3.BaseType, {}, null, undefined>; // Root <g> element within <svg>
@@ -146,8 +147,11 @@ export class SlopegraphComponent implements OnInit {
   }
 
 
+ 
   
   render(series) {
+    var self = this;
+    let nameWidth = this.margin.left - this.leftLabelPadding;
 
     if (series && series.length && this.mainContainer) {
 
@@ -215,11 +219,15 @@ export class SlopegraphComponent implements OnInit {
         .attr("y", d => d.rPos)
         .attr("text-anchor","end")
         .attr("dy",4)
-        .attr("dx",-60)
+        .attr("dx",-this.leftLabelPadding)
+        .each(textWrap)
+
+      items.select("text.label")
         .transition()
         .delay(this.delayTime)
         .duration(this.transitionTime)
         .attr("y", d => d.lPos ) 
+
         ;
 
       // Update slope elements
@@ -292,7 +300,20 @@ export class SlopegraphComponent implements OnInit {
         .text(secondPeriodLable)
         ;
 
+      /**
+       * Limits the length of a text element
+       * If the text is longer than a speciifed with, it reduces the text and adds an ellipsis (...)
+       */
+      function textWrap(d,i,nodes,context) {
+          let textLength = this.getComputedTextLength();
+          let text = d3.select(this).text();
 
+          while (textLength > nameWidth && text.length > 0) {
+              text = text.slice(0, -1);
+              d3.select(this).text(text + '...');
+              textLength = this.getComputedTextLength();
+          }
+      } 
     }
 
   }
